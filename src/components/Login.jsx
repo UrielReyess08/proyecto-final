@@ -2,75 +2,66 @@ import React, { useState } from "react";
 import { Menu } from "./Menu";
 
 export const Login = () => {
-  const [Milogin, setMiLogin] = useState("false");
-  const [usu, setUsu] = useState("");
-  const [pas, setPas] = useState("");
+  const [login, setLogin] = useState(false);
+  const [usuario, setUsuario] = useState("");
+  const [password, setPassword] = useState("");
 
   function iniciarSesion(e) {
     e.preventDefault();
-    var txtusu = document.getElementById("txtusu").value;
-    var txtpas = document.getElementById("txtpas").value;
-    if (txtusu.length === 0 || txtpas.length === 0) {
+    if (usuario.length === 0 || password.length === 0) {
       alert("Por favor. Complete todos los campos.");
     } else {
-      if (usu === "Admin" && pas === "123") {
-        setMiLogin("true");
-        document.getElementById("form_login").style.display = "none";
+      if (usuario === "Admin" && password === "123") {
+        setLogin(true);
       } else {
-        setMiLogin("false");
-        alert("EL usuario y/o contraseña Son Incorrectos");
-        document.getElementById("txtusu").value = "";
-        document.getElementById("txtpas").value = "";
-        document.getElementById("txtusu").focus();
+        setLogin(false);
+        alert("El Usuario y/o Contraseña Son Incorrectos");
+        setUsuario("");
+        setPassword("");
       }
     }
   }
 
-  return (
-    <div
-      className="container mt-5"
-      style={{ background: "lightgray", marginTop: 20, padding: 20 }}
-    >
-      <form id="form_login">
-        <div className="mb-3">
-          <h1 className="pb-2" style={{ color: "black", textalign: "center" }}>
-            BIENVENIDO
-          </h1>
-          <label htmlFor="txtusu" className="form-label fw-bold">
-            Usuario
-          </label>
-          <input
-            type="text"
-            id="txtusu"
-            style={{ textAlign: "center" }}
-            className="form-control"
-            onChange={(e) => setUsu(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="txtpas" className="form-label fw-bold">
-            Contraseña
-          </label>
-          <input
-            type="password"
-            id="txtpas"
-            style={{ textAlign: "center" }}
-            className="form-control"
-            onChange={(e) => setPas(e.target.value)}
-            required
-          />
-        </div>
-        <br />
-        <input
-          type="submit"
-          className="btn btn-primary"
-          value="Iniciar Sesión"
-          onClick={iniciarSesion}
-        />
-      </form>
+  if (login) {
+    return <Menu usu={usuario} />;
+  }
 
-      {Milogin === "true" && <Menu />}
+  return (
+    <div className="container mt-5 d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <div className="card p-4 shadow" style={{ width: "400px" }}>
+        <form onSubmit={iniciarSesion}>
+          <h1 className="text-center mb-4">BIENVENIDO</h1>
+          <div className="mb-3">
+            <label htmlFor="txtusu" className="form-label">
+              Usuario
+            </label>
+            <input
+              type="text"
+              id="txtusu"
+              className="form-control text-center"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="txtpas" className="form-label">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              id="txtpas"
+              className="form-control text-center"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Iniciar Sesión
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
